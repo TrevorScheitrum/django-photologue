@@ -566,25 +566,23 @@ class ImageModel(models.Model):
             im = self.effect.post_process(im)
         elif photosize.effect is not None:
             im = photosize.effect.post_process(im)
-            
         
-        # check to see if image is oriented differently
+        # check to see if image is oriented differently]
         try:
             exif_orientation = self.EXIF.get('Image Orientation', None)
             # Open image file for reading (binary mode)
             exif_orientation = "%s" % (exif_orientation)
             
             if exif_orientation is not None:
-                if exif_orientation ==  'Rotated 90 CW':
+                if exif_orientation == 'Rotated 90 CW':
                     im = im.transpose(Image.ROTATE_270)
-                if exif_orientation ==  'Rotated 90 CWW':
+                if exif_orientation == 'Rotated 90 CWW':
                     im = im.transpose(Image.ROTATE_90)
-                if exif_orientation ==  'Rotated 180':
+                if exif_orientation == 'Rotated 180':
                     im = im.transpose(Image.ROTATE_180)
         except:
             pass
         
-        # Save file
         im_filename = getattr(self, "get_%s_filename" % photosize.name)()
         try:
             if im_format != 'JPEG':
